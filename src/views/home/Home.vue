@@ -6,7 +6,7 @@
     <home-swiper :banners="banners"></home-swiper>
     <recommend-views :recommends="recommends" />
     <feature-view />
-    <tab-control class="tab-cotrol" @itemClick="tabClick" :titles="['流行', '新款', '精选']" ref="tabControl"></tab-control>
+    <tab-control class="tab-cotrol"  :titles="['流行', '新款', '精选']" ref="tabControl"></tab-control>
     <ul>
       <li>列表</li>
       <li>列表</li>
