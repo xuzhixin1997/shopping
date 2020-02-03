@@ -6,109 +6,14 @@
     <home-swiper :banners="banners"></home-swiper>
     <recommend-views :recommends="recommends" />
     <feature-view />
-    <tab-control class="tab-cotrol"  :titles="['流行', '新款', '精选']" ref="tabControl"></tab-control>
-    <ul>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-    </ul>
+    <tab-control
+      class="tab-cotrol"
+      :titles="['流行', '新款', '精选']"
+      ref="tabControl"
+      @itemClick="itemClick"
+    ></tab-control>
+    <goods-list :goods="showGoods"></goods-list>
+    
   </div>
 </template>
 
@@ -119,17 +24,20 @@ import TabControl from "content/tabControl/TabControl";
 import HomeSwiper from "./childComps/HomeSwiper";
 import RecommendViews from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
+import GoodsList from "./childComps/GoodsList";
 
-import { getHomeMultidata } from "network/home";
+import { getHomeMultidata, getHomeDate } from "network/home";
 
 export default {
   name: "Home",
   components: {
     NavBar,
     TabControl,
+
     HomeSwiper,
     RecommendViews,
-    FeatureView
+    FeatureView,
+    GoodsList
   },
   data() {
     return {
@@ -197,16 +105,363 @@ export default {
           link: "aaa",
           title: "四件不卖"
         }
-      ]
+      ],
+      goods: {
+        pop: {
+          page: 1,
+          list: [
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing1.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            }
+          ]
+        },
+        new: {
+          page: 1,
+          list: [
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            }
+          ]
+        },
+        sell: {
+          page: 1,
+          list: [
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            },
+            {
+              img: require("@/textPic/liuxing2.jpg"),
+              title: "服装",
+              price: "123",
+              cfav: "55"
+            }
+          ]
+        }
+      },
+      currentType: "pop"
     };
   },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    }
+  },
   created() {
-    // getHomeMultidata().then(res=>{
-    //   console.log(res)
-    //   // this.result = res;
-    //   this.banners = res.data.banner.list;
-    //   this.recommends = res.data.recommends.list;
-    // })
+    // this.getMultidata()
+    // this.getHomeProducts(POP);
+    // this.getHomeProducts(NEW);
+    // this.getHomeProducts(SELL);
+    // console.log(this.goods);
+  },
+  methods: {
+    /*
+      事件监听相关的
+    */
+    itemClick(index) {
+      console.log(index);
+      switch (index) {
+        case 0:
+          this.currentType = "pop";
+          break;
+        case 1:
+          this.currentType = "new";
+          break;
+        case 2:
+          this.currentType = "sell";
+          break;
+      }
+    },
+    /*
+    网络请求相关方法
+    */
+    getMultidata() {
+      getHomeMultidata().then(res => {
+        console.log(res);
+        // this.result = res;
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommends.list;
+      });
+    },
+    getHomeProducts(type) {
+      getHomeDate(type, this.goods[type].page).then(res => {
+        const goodsList = res.data.list;
+        this.goodsList[type].list.push(...goodsList);
+        this.goodsList[type].page += 1;
+      });
+    }
   }
 };
 </script>
@@ -224,8 +479,9 @@ export default {
   top: 0;
   z-index: 9;
 }
-.tab-cotrol{
-  position:sticky;
+.tab-cotrol {
+  position: sticky;
   top: 44px;
+  z-index: 9;
 }
 </style>

@@ -9,12 +9,13 @@ export function getHomeMultidata() {
   })
 }
 
-export function getHomeData(type, page) {
+export function getHomeDate(type, page){
   return axios({
     url: '/home/data',
-    params: {
+    params:{
       type,
       page
     }
   })
+
 }

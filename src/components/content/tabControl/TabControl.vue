@@ -31,7 +31,7 @@
         this.currentIndex = index;
 
         // 2.发出事件
-        // this.$emit('itemClick', index)
+        this.$emit('itemClick', index)
       }
     }
 	}
