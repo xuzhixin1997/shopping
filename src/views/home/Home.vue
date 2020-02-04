@@ -3,6 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      ref="tabControl1"
+      @itemClick="itemClick"
+      class="tab-control"
+      v-show="isTabFixed"
+    ></tab-control>
     <scroll
       class="content"
       ref="scroll"
@@ -11,15 +18,10 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"></home-swiper>
       <recommend-views :recommends="recommends" />
       <feature-view />
-      <tab-control
-        class="tab-cotrol"
-        :titles="['流行', '新款', '精选']"
-        ref="tabControl"
-        @itemClick="itemClick"
-      ></tab-control>
+      <tab-control :titles="['流行', '新款', '精选']" ref="tabControl2" @itemClick="itemClick"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <!-- 监听组件原生事件时，要用.native -->
@@ -39,6 +41,7 @@ import FeatureView from "./childComps/FeatureView";
 import GoodsList from "./childComps/GoodsList";
 
 import { getHomeMultidata, getHomeDate } from "network/home";
+import { debounce } from "@/common/utils";
 
 export default {
   name: "Home",
@@ -127,12 +130,14 @@ export default {
             {
               img: require("@/textPic/liuxing1.jpg"),
               title: "服装",
+              iid: "ddddd",
               price: "123",
               cfav: "55"
             },
             {
               img: require("@/textPic/liuxing1.jpg"),
               title: "服装",
+              iid: "ddddd",
               price: "123",
               cfav: "55"
             },
@@ -752,7 +757,7 @@ export default {
               title: "服装",
               price: "123",
               cfav: "55"
-            },
+            }
           ]
         },
         sell: {
@@ -810,7 +815,10 @@ export default {
         }
       },
       currentType: "pop",
-      isShowBackTop: false
+      isShowBackTop: false,
+      tabOffsetTop: 0,
+      isTabFixed: false,
+      saveY: 0
     };
   },
   computed: {
@@ -825,10 +833,35 @@ export default {
     // this.getHomeProducts("sell");
     // console.log(this.goods);
   },
+  mounted() {
+    // 监听item图片加载
+    const refresh = debounce(this.$refs.scroll.refresh, 1);
+    this.$bus.$on("itemImageLoad", () => {
+      refresh();
+    });
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY();
+    // console.log(this.saveY);
+  },
   methods: {
     /*
       事件监听相关的
     */
+
+    // debounce(func, delay) {
+    //   let timer = null;
+    //   return function(...args) {
+    //     if (timer) clearTimeout(timer);
+    //     timer = setTimeout(() => {
+    //       func.apply(this, args);
+    //     }, delay);
+    //   };
+    // },
     itemClick(index) {
       console.log(index);
       switch (index) {
@@ -842,17 +875,28 @@ export default {
           this.currentType = "sell";
           break;
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     backtop() {
       this.$refs.scroll.scrollTo(0, 0, 500);
     },
     contentScroll(position) {
       // console.log(position)
+      // 判断Tabtop是否显示
       this.isShowBackTop = -position.y > 1000;
+
+      // 判断tabControl是否吸顶(position: fixed)
+      this.isTabFixed = -position.y > this.tabOffsetTop;
     },
     loadMore() {
-      console.log("上啦加载更多");
+      // console.log("上啦加载更多");
       // this.getHomeProducts(this.currentType);
+      this.$refs.scroll.finishPullUp();
+    },
+    swiperImageLoad() {
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      console.log(this.$refs.tabControl2.$el.offsetTop);
     },
     /*
     网络请求相关方法
@@ -895,11 +939,15 @@ export default {
   top: 0;
   z-index: 9;
 }
-.tab-cotrol {
+.tab-control {
+  position: relative;
+  z-index: 9;
+}
+/* .tab-cotrol {
   position: sticky;
   top: 44px;
   z-index: 9;
-}
+} */
 .content {
   /* height: 300px; */
   position: absolute;

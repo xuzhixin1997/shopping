@@ -44,26 +44,41 @@ export default {
     });
 
     // 监听滚动
-    this.scroll.on("scroll", position => {
-      // console.log(position);
-      this.$emit("scroll", position);
-    });
+    if (this.probeType === 2 || this.probeType == 3) {
+      this.scroll.on("scroll", position => {
+        // console.log(position);
+        this.$emit("scroll", position);
+      });
+    }
 
     // 监听加载
-    this.scroll.on("pullingUp", () => {
-      // console.log("上啦加载");
-      this.$emit("pullingUp");
-    });
+    if (this.pullUpLoad) {
+      this.scroll.on("pullingUp", () => {
+        // console.log("上啦加载");
+        this.$emit("pullingUp");
+      });
+    }
+
+    // this.scroll.refresh();
   },
   methods: {
     // 往上滚动
     scrollTo(x, y, time = 300) {
-      this.scroll.scrollTo(x, y, time);
+      this.scroll && this.scroll.scrollTo(x, y, time);
     },
     // 上啦加载
     finishPullUp() {
       this.scroll.finishPullUp();
+    },
+    refresh() {
+      // console.log("aaaaa");
+      this.scroll && this.scroll.refresh();
+    },
+    getScrollY(){
+      return  this.scroll ? this.scroll.y : 0;
+     
     }
+
   }
 };
 </script>
