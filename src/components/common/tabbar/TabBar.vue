@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// 底部导航栏封装
   export default {
     name: "TabBar"
   }

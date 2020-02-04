@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// 轮播图内容设置
   import {Swiper, SwiperItem} from 'common/swiper'
 
 	export default {

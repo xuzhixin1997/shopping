@@ -24,6 +24,7 @@
 </template>
 
 <script>
+// 底部导航栏显示
   import TabBar from 'components/common/tabbar/TabBar'
   import TabBarItem from 'components/common/tabbar/TabBarItem'
 

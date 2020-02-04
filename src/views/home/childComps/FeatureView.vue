@@ -7,6 +7,7 @@
 </template>
 
 <script>
+// 中部图片
 export default {
   name:"FeatureView"
 }

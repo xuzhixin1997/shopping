@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// 轮播图下面4个特卖按钮
 export default {
   name: 'RecommendView',
   props:{

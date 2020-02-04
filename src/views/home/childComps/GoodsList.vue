@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// 显示商品详细信息
 import GoodsListItem from "./GoodsListItem";
 
 export default {

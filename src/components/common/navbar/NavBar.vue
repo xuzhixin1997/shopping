@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// 首部导航栏封装
 export default {
   name: "NavBar"
 };

@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// 轮播图封装
 	export default {
 		name: "Swiper",
     props: {

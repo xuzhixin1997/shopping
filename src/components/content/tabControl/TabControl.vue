@@ -10,11 +10,13 @@
 </template>
 
 <script>
+// 修改页面中部类型切换
 	export default {
 		name: "TabControl",
     props: {
 		  titles: {
-		    type: Array,
+        type: Array,
+        // 当你类型为对象或数组时，default要为函数
         default() {
 		      return []
         }
