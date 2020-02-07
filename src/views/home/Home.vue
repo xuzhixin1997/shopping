@@ -25,7 +25,7 @@
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <!-- 监听组件原生事件时，要用.native -->
-    <back-top @click.native="backtop" v-show="isShowBackTop" />
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -33,7 +33,7 @@
 import NavBar from "components/common/navbar/NavBar";
 import TabControl from "content/tabControl/TabControl";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/content/backTop/BackTop";
+// import BackTop from "components/content/backTop/BackTop";
 
 import HomeSwiper from "./childComps/HomeSwiper";
 import RecommendViews from "./childComps/RecommendView";
@@ -50,14 +50,12 @@ export default {
     NavBar,
     TabControl,
     Scroll,
-    BackTop,
-
     HomeSwiper,
     RecommendViews,
     FeatureView,
     GoodsList
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       // result:null
@@ -131,7 +129,7 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      isShowBackTop: false,
+      // isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
       saveY: 0
@@ -153,7 +151,7 @@ export default {
     // 监听item图片加载
   },
   activated() {
-    console.log(this.saveY)
+    // console.log(this.saveY);
     this.$refs.scroll.scrollTo(0, this.saveY, 0);
     this.$refs.scroll.refresh();
     // this.refresh();
@@ -191,12 +189,14 @@ export default {
           this.currentType = "sell";
           break;
       }
+      // console.log("aaaa", this.$refs.tabControl2.$el.offsetTop)
+      this.$refs.scroll.scrollTo(0, -this.$refs.tabControl2.$el.offsetTop, 0);
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backtop() {
-      this.$refs.scroll.scrollTo(0, 0, 500);
-    },
+    // backtop() {
+    //   this.$refs.scroll.scrollTo(0, 0, 500);
+    // },
     contentScroll(position) {
       // console.log(position)
       // 判断Tabtop是否显示
@@ -229,7 +229,7 @@ export default {
     getHomeProducts(type) {
       const page = this.goods[type].page + 1;
       getHomeDate(type, page).then(res => {
-        // console.log(res);  
+        // console.log(res);
         // 将网络请求得到都数组塞到 定义的新数组中 保留数据
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
@@ -244,22 +244,19 @@ export default {
 
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
   height: 100vh;
   position: relative;
 }
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 9;
 }
 .tab-control {
   position: relative;
   z-index: 9;
+  padding-top: 0;
+  background-color: #f6f6f6;
 }
 /* .tab-cotrol {
   position: sticky;
@@ -268,6 +265,8 @@ export default {
 } */
 .content {
   /* height: 300px; */
+  overflow: hidden;
+
   position: absolute;
   top: 44px;
   bottom: 49px;
