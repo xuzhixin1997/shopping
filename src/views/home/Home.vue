@@ -44,6 +44,7 @@ import { getHomeMultidata, getHomeDate } from "network/home";
 
 import { itemListenerMixin, backTopMixin } from "@/common/mixin";
 
+import { debounce } from "@/common/utils";
 export default {
   name: "Home",
   components: {
@@ -149,16 +150,20 @@ export default {
   },
   mounted() {
     // 监听item图片加载
+    this.$bus.$on("itemImageLoad", () => {
+      refresh();
+    });
+    const refresh = debounce(this.$refs.scroll.refresh, 200);
   },
   activated() {
-    // console.log(this.saveY);
+
     this.$refs.scroll.scrollTo(0, this.saveY, 0);
     this.$refs.scroll.refresh();
-    // this.refresh();
+
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY();
-    console.log(this.saveY);
+
 
     this.$bus.$off("itemImgLoad", this.itemImgListener);
   },

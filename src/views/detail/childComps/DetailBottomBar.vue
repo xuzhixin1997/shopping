@@ -1,100 +1,87 @@
 <template>
-  <div class="buttom-bar">
+  <div class="bottom-bar">
     <div class="bar-item bar-left">
       <div>
-        <i class="icon service"></i>
+        <i class="icon service" />
         <span class="text">客服</span>
       </div>
       <div>
-        <i class="icon shop"></i>
+        <i class="icon shop" />
         <span class="text">店铺</span>
       </div>
       <div>
-        <i class="icon select"></i>
+        <i class="icon select" />
         <span class="text">收藏</span>
       </div>
     </div>
     <div class="bar-item bar-right">
-      <div class="cart" @click="addToCart">加入购物车</div>
+      <div class="cart" @click="addCart">加入购物车</div>
       <div class="buy">购买</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: "DetailButtomBar",
-  methods: {
-    addToCart() {
-      this.$emit("addCart");
+  export default {
+    name: "DetailBottomBar",
+    props: {},
+    data() {
+      return {};
+    },
+    methods: {
+      addCart(){
+        this.$emit('addCart')
+      }
     }
-  }
-};
+  };
 </script>
-
 <style scoped>
-.buttom-bar {
-    /*height: 49px;*/
-    /*background-color: red;*/
-
-    position: relative;
-    /*bottom: 58px;*/
-
-    /*height: 58px;*/
-    /*position: fixed;*/
-    background-color: #fff;
-    /*left: 0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
-
-    display: flex;
+  .bottom-bar {
+    height: 49px;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     text-align: center;
+    box-shadow: 0px -1px 1px rgba(100, 100, 100, 0.1);
+    display: flex;
   }
-
   .bar-item {
     flex: 1;
     display: flex;
   }
-
-  .bar-item>div {
+  .bar-item > div {
     flex: 1;
   }
-
-  .bar-left .text{
+  .bar-left .text {
     font-size: 13px;
   }
-
   .bar-left .icon {
     display: block;
     width: 22px;
     height: 22px;
-    margin: 10px auto 3px;
+    margin: 5px auto 3px;
     background: url("~assets/img/detail/detail_bottom.png") 0 0/100%;
   }
-
   .bar-left .service {
     background-position: 0 -54px;
   }
-
   .bar-left .shop {
     background-position: 0 -98px;
   }
-
   .bar-right {
     font-size: 15px;
     color: #fff;
-    line-height: 58px;
+    line-height: 49px;
   }
-
   .bar-right .cart {
     background-color: #ffe817;
     color: #333;
   }
-
   .bar-right .buy {
     background-color: #f69;
   }
-
   .sport-ball {
     position: absolute;
     left: 225px;

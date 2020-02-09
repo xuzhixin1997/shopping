@@ -22,16 +22,10 @@
     },
     methods: {
       imageLoad() {
+        
         // 事件总线
-        // this.$bus.$emit('itemImageLoad')
+        this.$bus.$emit('itemImageLoad')
 
-        // 如果是home下 才发送这个信号
-        // 判断一下当前的路由是什么 发送不同的信号
-        // if(this.$router.path.indexOf('/home')){
-        //   this.$bus.$emit('homeItemImageLoad')
-        // }else if (this.$router.path.indexOf('/detail')){
-        //   this.$bus.$emit('detailItemImageLoad')
-        // }
       },
       itemClick() {
         this.$router.push('/detail/' + this.goodsItem.iid)

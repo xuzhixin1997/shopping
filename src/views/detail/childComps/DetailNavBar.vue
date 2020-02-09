@@ -45,6 +45,7 @@ export default {
 <style>
 .title {
   display: flex;
+  font-size: 12px;
 }
 .title-item {
   flex: 1;
@@ -54,6 +55,6 @@ export default {
 }
 
 .back img {
-  margin-top: 12px;
+  vertical-align: middle;
 }
 </style>

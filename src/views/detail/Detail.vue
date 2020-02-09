@@ -1,8 +1,9 @@
 <template>
-  <div id="detail" class="detail">
+  <div id="detail" >
+    <!-- <div>{{$store.state.cartList}}</div> -->
     <nav-bar class="detail-nav" @titleClick="titleClick" ref="nav"></nav-bar>
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
-      <detail-swiper :top-image="topImage"></detail-swiper>
+      <detail-swiper :top-image="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
       <DetailGoodsInfo :detail-info="detailInfo" @imageLoad="imageLoad"></DetailGoodsInfo>
@@ -10,8 +11,9 @@
       <DetailCommentInfo ref="comment" :comment-info="commentInfo"></DetailCommentInfo>
       <GoodsList ref="recommend" :goods="recommends"></GoodsList>
     </scroll>
-    <detail-buttom-bar @addCart="addToCart"></detail-buttom-bar>
+    <!-- <detail-buttom-bar @addCart="addToCart"></detail-buttom-bar> -->
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+    <detail-buttom-bar @addCart="addToCart"></detail-buttom-bar>
   </div>
 </template>
 
@@ -27,6 +29,8 @@ import DetailCommentInfo from "./childComps/DetailCommentInfo";
 import GoodsList from "components/content/goods/GoodsList";
 import DetailButtomBar from "./childComps/DetailBottomBar";
 import { itemListenerMixin, backTopMixin } from "@/common/mixin";
+
+import { mapActions } from "vuex";
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -48,7 +52,7 @@ export default {
   data() {
     return {
       iid: null,
-      topImage: [],
+      // topImage: [],
       goods: {},
       shop: {},
       detailInfo: {},
@@ -57,7 +61,8 @@ export default {
       recommends: [],
       themeTopYs: [],
       getThemeTopY: null,
-      currentIndex: 0
+      currentIndex: 0,
+      topImages: []
     };
   },
   components: {
@@ -82,7 +87,7 @@ export default {
       // console.log("请求到数据")
       // console.log(res);
       const data = res.result;
-      this.topImage = data.itemInfo.topImages;
+      this.topImages = data.itemInfo.topImages;
 
       this.goods = new Goods(
         data.itemInfo,
@@ -102,7 +107,7 @@ export default {
         this.commentInfo = data.rate.list[0];
         // console.log(this.commentInfo);
       }
-
+      this.detailInfo = data.detailInfo;
       this.getThemeTopY = debounce(() => {
         this.themeTopYs = [];
         this.themeTopYs.push(0);
@@ -129,10 +134,16 @@ export default {
   },
   mounted() {},
   methods: {
+    // 映射
+    ...mapActions({
+      addCart: "addCart"
+    }),
+
     imageLoad() {
       // console.log("aaa");
       this.$refs.scroll.refresh();
       // this.refresh();
+
       this.getThemeTopY();
     },
     titleClick(index) {
@@ -170,7 +181,24 @@ export default {
       // }
     },
     addToCart() {
-      console.log("aaaaa");
+      // console.log("aaaaa");
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      // product.count = 1;
+
+      this.addCart(product).then(res => {
+        console.log(res);
+        this.$toast.show(res, 2000);
+      });
+
+      // this.$store.dispatch('addCart', product).then(res=>{
+      //   console.log(res)
+      // })
+      // this.$store.commit('addCart', product)
     }
   },
   destroyed() {
@@ -183,21 +211,19 @@ export default {
 #detail {
   /*detail页面盖住下面的导航栏*/
   position: relative;
-  z-index: 11;
-  background-color: #fff;
-
+  z-index: 19;
+  background-color: #f2f2f2;
   height: 100vh;
 }
 
 /*Scroll需要指定content高度*/
 .content {
-  height: calc(100% - 44px - 58px);
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+  overflow: hidden;
 }
 
-/*滚动时盖住顶部导航栏了 修改*/
-.detail-nav {
-  position: relative;
-  z-index: 10;
-  background-color: #fff;
-}
 </style>
