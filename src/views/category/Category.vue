@@ -101,6 +101,7 @@
       <li>11</li>
       <li>11</li>
       <li>11</li>
+      <li>11</li>
     </ul>
   </div>
 </template>
@@ -112,7 +113,7 @@ export default {
   name: "Category",
   data() {
     return {
-      scroll: null
+      scroll: null,
     };
   },
   created() {
@@ -123,10 +124,10 @@ export default {
     // new BScroll(document.querySelector('.wrapper'), {});
     this.scroll = new BScroll(this.$refs.wrapper1, {
       probeType: 3,
-      pullUpLoad: true
+      pullUpLoad: true,
     });
 
-    this.scroll.on("scroll", position => {
+    this.scroll.on("scroll", (position) => {
       // console.log(position);
     });
 
@@ -138,7 +139,7 @@ export default {
         this.scroll.finishPullUp();
       }, 2000);
     });
-  }
+  },
 };
 </script>
 
